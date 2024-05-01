@@ -4,6 +4,16 @@
       <p><strong>Email:</strong>
         <%= @author.email %>
       </p>
+       <% if @author.articles.any? %>
+        <p>Articles:</p>
+        <ul>
+          <% @author.articles.each do |article| %>
+            <li><%= link_to article.title, article_path(article) %></li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>No articles found.</p>
+      <% end %>
     <%= link_to "Edit", edit_author_path(@author), class: 'btn btn-primary' %>
     <%= link_to "Delete", author_path(@author), data: {
                     turbo_method: :delete,

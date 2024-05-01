@@ -2,16 +2,15 @@
 <h3 class='d-flex justify-content-between mb-5'>
     <h1>Authors</h1>
     <%=link_to 'New Author', new_author_path, class: 'btn btn-primary' %>
+     <%=link_to 'All Articles', root_path, class: 'btn btn-primary' %>
 </h3>
  <% @authors.each do |author| %>
 
   <%= link_to author, class: 'text-decoration-none' do%>
-  <div class="card mb-3">
+  <div class="card mb-3 mt-4">
     <div class="card-body">
-      <h5 class="card-title text-dark"> <%= author.first_name %> </h5>
-      <p class="card-lasname text-dark"> <%= author.last_name %> </p>
+      <h5 class="card-title text-dark"> <%= author.full_name %> </h5>
       <p class="card-email text-dark"> <%= author.email %> </p>
-      <%= link_to 'Show', author,  class: 'btn btn-primary'  %>
     </div>
   </div>
   <% end %>

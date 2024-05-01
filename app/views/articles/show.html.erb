@@ -7,8 +7,14 @@
                     turbo_method: :delete,
                     turbo_confirm: "Are you sure?"
                   }, class: 'btn btn-primary' %>
-    <%= link_to "Back", root_path, class: "btn btn-primary" %>   
+    <%= link_to "Back to Main Page", root_path, class: "btn btn-primary" %>  
+    <% if @article.author %>
+      <p class="author ml-4 mt-3">Author: <%= link_to @article.author.full_name, author_path(@article.author) %></p>
+    <% else %>
+      <p class="author ml-4">Author: Unknown</p>
+    <% end %> 
     </div>
+
   </div>
 
 

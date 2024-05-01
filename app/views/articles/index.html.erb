@@ -2,7 +2,11 @@
 
   <span>Articles</span>
   Our blog has <%= Article.public_count %> articles and counting!
-  <%= link_to "New article", new_article_path, class: 'btn btn-primary' %>
+  <div>
+    <%= link_to "New article", new_article_path, class: 'btn btn-primary' %>
+    <%= link_to "Our Authors", authors_path, class: 'btn btn-primary' %>
+  </div>
+  
 </h3>
  <% @articles.each do |article| %>
  <% unless article.archived? %>
@@ -11,6 +15,11 @@
     <div class="card-body">
       <h5 class="card-title text-decoration-none"> <%= article.title %> </h5>
       <p > <%= article.body %> </p>
+      <% if article.author %>
+        <p class="author ml-4">Author: <%= article.author.full_name %></p>
+      <% else %>
+        <p class="author ml-4">Author: Unknown</p>
+      <% end %>
     </div>
   </div>
   <% end %>

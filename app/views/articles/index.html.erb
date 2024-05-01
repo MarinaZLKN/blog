@@ -1,3 +1,7 @@
+<div style="text-align: center; margin-bottom: 20px;">
+  <img src="<%= asset_path('pic.jpg') %>" alt="Image" style="width: 100%; max-width: 100%; height: auto;">
+</div>
+
 <h3 class='d-flex justify-content-between mb-6'>
 
   <span>Articles</span>
@@ -13,7 +17,7 @@
   <%= link_to article, class: 'text-decoration-none' do%>
   <div class="card mb-3">
     <div class="card-body">
-      <h5 class="card-title text-decoration-none"> <%= article.title %> </h5>
+      <h4 class="card-title text-decoration-none"> <%= article.title %> </h4>
       <p > <%= article.body %> </p>
       <% if article.author %>
         <p class="author ml-4">Author: <%= article.author.full_name %></p>

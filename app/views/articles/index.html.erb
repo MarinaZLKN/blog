@@ -1,0 +1,18 @@
+<h3 class='d-flex justify-content-between mb-6'>
+
+  <span>Articles</span>
+  Our blog has <%= Article.public_count %> articles and counting!
+  <%= link_to "New article", new_article_path, class: 'btn btn-primary' %>
+</h3>
+ <% @articles.each do |article| %>
+ <% unless article.archived? %>
+  <%= link_to article, class: 'text-decoration-none' do%>
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title text-decoration-none"> <%= article.title %> </h5>
+      <p > <%= article.body %> </p>
+    </div>
+  </div>
+  <% end %>
+  <%end%>
+ <%end%>

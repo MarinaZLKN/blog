@@ -1,4 +1,5 @@
 class Article < ApplicationRecord
+  belongs_to :author
   include Visible
 
   has_many :comments, dependent: :destroy

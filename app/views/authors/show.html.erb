@@ -1,0 +1,16 @@
+ <div class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title text-decoration-none"> <%= @author.first_name %> <%= @author.last_name %> </h5>
+      <p><strong>Email:</strong>
+        <%= @author.email %>
+      </p>
+    <%= link_to "Edit", edit_author_path(@author), class: 'btn btn-primary' %>
+    <%= link_to "Delete", author_path(@author), data: {
+                    turbo_method: :delete,
+                    turbo_confirm: "Are you sure?"
+                  }, class: 'btn btn-primary' %>
+    <%= link_to "Back", authors_path, class: "btn btn-primary" %>   
+    </div>
+  </div>
+
+

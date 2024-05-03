@@ -1,12 +1,23 @@
 <%= form_with model: article, html: { style: "width: 500px;" } do |form| %>
+  <div id="error_explanation">
+    <% if article.errors.any? %>
+      <div class="alert alert-danger">
+        <h4><%= pluralize(article.errors.count, "error") %> prohibited this article from being saved:</h4>
+
+        <ul>
+          <% article.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+
   <div class="mb-3">
     <%= form.label :title, class: "form-label" do %>
       <strong>Title:</strong>
     <% end %><br>
     <%= form.text_field :title, class: "form-control" %>
-    <% article.errors.full_messages_for(:title).each do |message| %>
-      <div><%= message %></div>
-    <% end %>
   </div>
 
   <div class="mb-3">
@@ -14,9 +25,6 @@
       <strong>Body:</strong>
     <% end %><br>
     <%= form.text_area :body, class: "form-control" %><br>
-    <% article.errors.full_messages_for(:body).each do |message| %>
-      <div><%= message %></div>
-    <% end %>
   </div>
 
   <div class="mb-3">

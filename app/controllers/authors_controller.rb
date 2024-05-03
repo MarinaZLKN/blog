@@ -21,7 +21,7 @@ class AuthorsController < ApplicationController
     if @author.save
       redirect_to @author
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -29,7 +29,7 @@ class AuthorsController < ApplicationController
     if @author.update(author_params)
       redirect_to @author
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 

@@ -1,11 +1,13 @@
 class AuthorsController < ApplicationController
   before_action :set_author, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_author!, only: [:edit, :update, :destroy]
 
   def index
     @authors = Author.all
   end
 
   def show
+    @author = Author.find(params[:id])
   end
 
   def new
@@ -13,19 +15,27 @@ class AuthorsController < ApplicationController
   end
 
   def edit
+    unless current_author == @author
+      redirect_to authors_path, alert: "You cannot edit this author."
+    end
   end
 
   def create
     @author = Author.new(author_params)
 
     if @author.save
-      redirect_to @author
+      redirect_to @autho
     else
       render :new, status: :unprocessable_entity
     end
   end
 
   def update
+    unless current_author == @author
+      redirect_to authors_path, alert: "You cannot update this author."
+      return
+    end
+
     if @author.update(author_params)
       redirect_to @author
     else
@@ -34,10 +44,13 @@ class AuthorsController < ApplicationController
   end
 
   def destroy
-    @author = Author.find(params[:id])
-    @author.destroy
-    redirect_to authors_path, status: :see_other
+    unless current_author == @author
+      redirect_to authors_path, alert: "You cannot delete this author."
+      return
+    end
 
+    @author.destroy
+    redirect_to authors_path, notice: "Author was successfully deleted."
   end
 
   private

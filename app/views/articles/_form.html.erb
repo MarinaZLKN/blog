@@ -24,15 +24,9 @@
     <%= form.label :body, class: "form-label" do %>
       <strong>Body:</strong>
     <% end %><br>
-    <%= form.text_area :body, class: "form-control" %><br>
+    <%= form.text_area :body, class: "form-control", placeholder: "Enter your article text here", rows: 6, style: "resize: none;" %><br>
   </div>
 
-  <div class="mb-3">
-    <%= form.label :author_id, class: "form-label" do %>
-      <strong>Author:</strong>
-    <% end %><br>
-    <%= form.collection_select :author_id, Author.all, :id, :full_name, { prompt: "Select author" }, { class: "form-select" } %>
-  </div>
 
   <div class="mb-3">
     <%= form.label :status, class: "form-label" do %>
@@ -43,6 +37,7 @@
 
   <div class="mt-3">
     <%= form.submit "Save", class: "btn btn-primary" %>
+    <%=link_to 'All Articles', root_path, class: 'btn btn-primary' %>
   </div>
 <% end %>
 

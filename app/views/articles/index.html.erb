@@ -1,3 +1,10 @@
+<div class='d-flex justify-content-between mb-3'>
+    <% if author_signed_in? %>
+      <%= link_to "Profile", edit_author_registration_path, class: "btn btn-success" %>
+      <%= button_to "Log Out", destroy_author_session_path, method: :delete, class: 'btn btn-primary'%>
+    <% end %>
+  </div>
+
 <div style="text-align: center; margin-bottom: 20px;">
   <img src="<%= asset_path('pic.jpg') %>" alt="Image" style="width: 100%; max-width: 100%; height: auto;">
 </div>
@@ -24,6 +31,7 @@
       <% else %>
         <p class="author ml-4">Author: Unknown</p>
       <% end %>
+       <p> <%= article.created_at.strftime("%B %d, %Y") %> </p>
     </div>
   </div>
   <% end %>

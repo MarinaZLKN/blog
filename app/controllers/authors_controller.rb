@@ -37,7 +37,7 @@ class AuthorsController < ApplicationController
     end
 
     if @author.update(author_params)
-      redirect_to @author
+      redirect_to @author, notice: "Author was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end

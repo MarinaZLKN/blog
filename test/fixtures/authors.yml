@@ -1,4 +1,9 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+one:
+  first_name: Marina
+  last_name: Zhilkina
+  email: marina@gmail.com
+  encrypted_password: <%= Devise::Encryptor.digest(Author, 'password') %>
 
 

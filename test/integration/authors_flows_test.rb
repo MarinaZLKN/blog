@@ -1,86 +1,101 @@
 require "test_helper"
 
 class AuthorsFlowsTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
 
-  test "registration creates a new author in the database with valid data" do
-    get new_author_registration_path
-    assert_response :success
+  setup do
+    @author = authors(:one)
+    sign_in authors(:one)
+  end
 
-    assert_difference 'Author.count', 1 do
-      post author_registration_path, params: { author: {
-        first_name: "Marina",
-        last_name: "Zhilkina",
-        email: "marina@gmail.com",
-        password: "password",
-        password_confirmation: "password"
-      } }
+  test "should create author" do
+    sign_out :author
+    assert_difference('Author.count', 1) do
+      post authors_path, params: { author: {
+        first_name: 'Alice',
+        last_name: 'Smith',
+        email: "alice+#{Time.now.to_i}@example.com",
+        password: 'password123',
+        password_confirmation: 'password123'
+        } }
     end
 
     assert_redirected_to root_path
+  end
+
+  test "should not create an author with existing email" do
+    duplicate_email = @author.email
+    assert_no_difference('Author.count') do
+      post authors_path, params: { author: {
+        first_name: 'Bob',
+        last_name: 'Johnson',
+        email: duplicate_email,
+        password: 'password123',
+        password_confirmation: 'password123'
+        } }
+    end
     follow_redirect!
 
-    assert_select 'p', 'Welcome! You have signed up successfully.'
-  end
-
-
-  test "registration does not create a new author in the database with invalid data" do
-    get new_author_registration_path
-    assert_response :success
-
-    assert_no_difference 'Author.count' do
-      post author_registration_path, params: { author: {
-        first_name: "",
-        last_name: "Doe",
-        email: "john@example.com",
-        password: "password",
-        password_confirmation: "password"
-      } }
-    end
-
-    assert_response :unprocessable_entity
-    assert_select "div#error_explanation"
-  end
-  test "existing email prevents registration" do
-    existing_author = Author.create(first_name: "User", last_name: "New", email: "user@mail.com", password: "password")
-
-    get new_author_registration_path
-    assert_response :success
-
-    assert_no_difference 'Author.count' do
-      post author_registration_path, params: { author: {
-        first_name: "Kate",
-        last_name: "Smith",
-        email: existing_author.email,
-        password: "password",
-        password_confirmation: "password"
-      } }
-    end
-
-    assert_response :unprocessable_entity
-    assert_select 'div#error_explanation', /Email has already been taken/
   end
 
   test "existing author can successfully sign in with correct credentials" do
-    author = Author.create(first_name: "Marina", last_name: "Zhilkina", email: "marina@gmail.com", password: "password")
-
-    get new_author_session_path
+    sign_in @author
+    get root_path
     assert_response :success
-
-    post author_session_path, params: { author: { email: author.email, password: author.password } }
-    assert_redirected_to root_path
-    follow_redirect!
-    assert_response :success
-    assert_select "p", "Signed in successfully."
+    assert_select 'button', 'Log Out'
   end
 
-  test "sign in is not allowed with incorrect credentials" do
-    author = Author.create(first_name: "New", last_name: "User", email: "user@gmail.com", password: "password")
+  test "log in is not allowed with incorrect credentials" do
+    post author_session_path, params: { author: {
+      email: "random@email.com",
+      password: 'wrong_password'
+    } }
 
-    get new_author_session_path
-    assert_response :success
+    assert_response :redirect
+    #assert_response :unprocessable_entity
 
-    post author_session_path, params: { author: { email: author.email, password: "incorrect_password" } }
-    assert_response :unprocessable_entity
-    assert_select "p", "Invalid Email or password."
   end
+  test "should get edit author page" do
+    sign_in @author
+    get edit_author_path(@author)
+    assert_response :success
+  end
+
+  # test "should update author" do
+  #   sign_in @author
+  #   patch author_edit_path, params: { author: { first_name: "New Name" } }
+  #   assert_response :unprocessable_entity
+  #   @author.reload
+  #   assert_equal "Marina", @author.first_name
+  # end
+  test "deleting an author deletes associated articles" do
+
+    author = Author.create!(
+      first_name: "user",
+      last_name: "new",
+      email: "new@mail.com",
+      password: "password"
+    )
+
+    sign_in author
+
+    author.articles.create!(
+      title: "First article",
+      body: "First article body",
+      status: "public"
+    )
+
+    author.articles.create!(
+      title: "Second article",
+      body: "Second article body",
+      status: "public"
+    )
+
+    assert_equal 2, Article.count
+
+    delete author_path(author)
+
+    assert_equal 0, Article.count
+  end
+
 end

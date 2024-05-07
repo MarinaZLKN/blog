@@ -20,15 +20,16 @@ class AuthorsController < ApplicationController
     end
   end
 
-  def create
-    @author = Author.new(author_params)
+  # def create
+  #   Rails.logger.debug "Author params: #{author_params.inspect}"
+  #   @author = Author.new(author_params)
 
-    if @author.save
-      redirect_to @autho
-    else
-      render :new, status: :unprocessable_entity
-    end
-  end
+  #   if @author.save
+  #     redirect_to @author
+  #   else
+  #     render :new, status: :unprocessable_entity
+  #   end
+  # end
 
   def update
     unless current_author == @author
@@ -37,7 +38,7 @@ class AuthorsController < ApplicationController
     end
 
     if @author.update(author_params)
-      redirect_to @author
+      redirect_to @author, notice: "Author was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -59,6 +60,6 @@ class AuthorsController < ApplicationController
     end
 
     def author_params
-      params.require(:author).permit(:first_name, :last_name, :email)
+      params.require(:author).permit(:first_name, :last_name, :email, :password, :password_confirmation)
     end
 end

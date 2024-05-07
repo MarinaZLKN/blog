@@ -16,7 +16,7 @@ class DevisesTest < ApplicationSystemTestCase
     click_on "Sign up"
 
     assert_text "Welcome! You have signed up successfully."
-    #assert_current_path(new_article_path)
+    assert_current_path(new_article_path)
   end
 
 
@@ -43,8 +43,9 @@ class DevisesTest < ApplicationSystemTestCase
 
     assert_text "Email has already been taken"
   end
+
   test "logging in the auhtor, creating, editing and deleting the article, then
-   logging out - unauthorized user cannot edit or delete the author" do
+   logging out - also check that unauthorized user cannot edit or delete the author" do
     author=Author.create!(
       first_name: "Marina",
       last_name: "Another",
@@ -65,7 +66,7 @@ class DevisesTest < ApplicationSystemTestCase
     assert_text "Signed in successfully."
     assert_current_path(new_article_path)
 
-    fill_in "Title", with: "New article"
+    fill_in "Title", with: "Newest article"
     fill_in "Body", with: "New article text for testing"
 
     click_on "Save"
@@ -192,6 +193,53 @@ class DevisesTest < ApplicationSystemTestCase
     assert_text "Last name can't be blank"
     assert_text "Password is too short (minimum is 6 characters)"
     assert_text "Password confirmation doesn't match Password"
+
+  end
+  test "authenticated author cannot edit or delete other authors" do
+    Author.create!(
+      first_name: "Author",
+      last_name: "Popular",
+      email: "popular@mail.com",
+      password: "password"
+    )
+    author2 = Author.create!(
+      first_name: "Painter",
+      last_name: "Unpopular",
+      email: "unpopulare@mail.com",
+      password: "password2"
+    )
+
+    visit root_path
+    click_on "New article"
+    assert_text "You need to sign in or sign up before continuing."
+    fill_in "Email", with: "popular@mail.com"
+    fill_in "Password", with: "password"
+
+    click_on "Log in"
+    assert_text "Signed in successfully."
+
+    visit authors_path
+    assert_current_path(authors_path)
+    assert_text 'Authors'
+
+    author_card = find('div.card', text: author2.full_name)
+    author_card.click
+
+    assert_current_path(author_path(author2))
+
+    click_on "Edit"
+    assert_text "You cannot edit this author."
+
+    author_card = find('div.card', text: author2.full_name)
+    author_card.click
+
+    assert_current_path(author_path(author2))
+
+    click_on "Delete"
+    sleep 2
+    page.driver.browser.switch_to.alert.accept
+    assert_text "You cannot delete this author."
+    assert_current_path(authors_path)
 
   end
 

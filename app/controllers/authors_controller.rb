@@ -20,16 +20,16 @@ class AuthorsController < ApplicationController
     end
   end
 
-  def create
-    Rails.logger.debug "Author params: #{author_params.inspect}"
-    @author = Author.new(author_params)
+  # def create
+  #   Rails.logger.debug "Author params: #{author_params.inspect}"
+  #   @author = Author.new(author_params)
 
-    if @author.save
-      redirect_to @author
-    else
-      render :new, status: :unprocessable_entity
-    end
-  end
+  #   if @author.save
+  #     redirect_to @author
+  #   else
+  #     render :new, status: :unprocessable_entity
+  #   end
+  # end
 
   def update
     unless current_author == @author

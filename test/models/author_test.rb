@@ -14,4 +14,12 @@ class AuthorTest < ActiveSupport::TestCase
     assert_equal author, article.author
   end
 
+  test "password is hashed correctly" do
+    password = "password123"
+    author = Author.new(first_name: "Kate", last_name: "Hudson", email: "test@test.com", password: password)
+    author.save
+    assert_not_equal password, author.encrypted_password
+    assert author.valid_password?(password)
+  end
+
 end

@@ -7,3 +7,9 @@ one:
   encrypted_password: <%= Devise::Encryptor.digest(Author, 'password') %>
 
 
+two:
+  first_name: Anatoli
+  last_name: Pupkin
+  email: anatoli@gmail.com
+  encrypted_password: <%= Devise::Encryptor.digest(Author, 'password') %>
+

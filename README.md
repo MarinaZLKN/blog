@@ -1,24 +1,27 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Instructions for starting a project in Ruby on Rails:
 
-Things you may want to cover:
+Open a terminal or command prompt.
+Go to the directory where you want to link the project.
+Enter command: 
 
-* Ruby version
+* git clone git@github.com:MarinaZLKN/blog.git
 
-* System dependencies
+* cd blog
 
-* Configuration
+* bundle install
 
-* Database creation
+* rails db:create
 
-* Database initialization
+* rails db:migrate
 
-* How to run the test suite
+* rails s 
 
-* Services (job queues, cache servers, search engines, etc.)
+Tests are running by entering:
 
-* Deployment instructions
+* rails test - for integrational tests
 
-* ...
+* bin/rails test:system - for system tests
+
+* Enjoy :)

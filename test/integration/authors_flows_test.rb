@@ -166,4 +166,13 @@ class AuthorsFlowsTest < ActionDispatch::IntegrationTest
     assert_redirected_to article_path(article)
     assert_equal 'You can delete only articles that belong to you.', flash[:alert]
   end
+
+  test "author can have multiple articles" do
+    author = authors(:one)
+
+    assert_difference 'author.articles.count', 2 do
+      author.articles.create(title: "First Article", body: "Content of the first article", status: "public")
+      author.articles.create(title: "Second Article", body: "Content of the second article", status: "public")
+    end
+  end
 end

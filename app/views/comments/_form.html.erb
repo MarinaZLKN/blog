@@ -1,8 +1,10 @@
 <%= form_with model: [ @article, @article.comments.build ],html: { style: "width: 500px;" } do |form| %>
-  <div class="mb-3">
-    <%= form.label :commenter, class: "form-label" %>
-    <%= form.text_field :commenter, class: "form-control" %>
-  </div>
+  <% unless author_signed_in? %>
+    <div class="mb-3">
+      <%= form.label :commenter, class: "form-label" %>
+      <%= form.text_field :commenter, class: "form-control" %>
+    </div>
+  <% end %>
 
   <div class="mb-3">
     <%= form.label :body, class: "form-label" %>

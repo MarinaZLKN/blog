@@ -7,7 +7,7 @@ RSpec.describe Author, type: :model do
 
   describe Author do
     it 'author can have multiple articles' do
-      author = FactoryBot.create(:author)
+      author = FactoryBot.create(:author_with_devise)
 
       article1 = FactoryBot.create(:article, author: author)
       article2 = FactoryBot.create(:article, author: author)

@@ -28,7 +28,7 @@ gem "jbuilder"
 
 # Devise
 
-gem 'devise'
+#gem 'devise'
 
 # RSpec
 
@@ -78,4 +78,6 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem 'shoulda-matchers', '~> 5.0'
+  gem 'devise'
+  gem 'rails-controller-testing'
 end

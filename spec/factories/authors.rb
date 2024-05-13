@@ -2,7 +2,8 @@ FactoryBot.define do
   factory :author do
     first_name { 'Marina' }
     last_name { 'Author' }
-    email { 'marina123445@gmail.com' }
+    #email { 'marina123445@gmail.com' }
+    sequence(:email) { |n| "author#{n}@example.com" }
     password { 'password' }
     factory :author_with_devise do
       password { Devise.friendly_token[0, 20] }

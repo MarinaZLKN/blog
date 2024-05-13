@@ -28,7 +28,7 @@ gem "jbuilder"
 
 # Devise
 
-#gem 'devise'
+gem 'devise'
 
 # RSpec
 

@@ -26,28 +26,19 @@ RSpec.describe ArticlesController, type: :controller do
       expect(response).to redirect_to(root_path)
       expect(Article.exists?(article.id)).to be_falsey
     end
-
-    # it "does not allow access to edit an article that does not belong to the author" do
-    #   patch :update, params: { id: other_article.id, article: { title: "Updated Title" } }
-    #   expect(response).to redirect_to(article_path)
-    #   expect(flash[:alert]).to eq("You can edit only your own articles. :)")
-    # end
-
-    # it "does not allow to delete an article that does not belong to the author" do
-    #   delete :destroy, params: { id: other_article.id }
-    #   expect(flash[:alert]).to eq("You can delete only articles that belong to you.")
-    # end
   end
 
   describe "when user is not logged in" do
     it "does not allow access to edit an article" do
-      patch :update, params: { id: article.id, article: { title: "Updated Title" } }
-      expect(response).to redirect_to(article_path)
+      patch :update, params: { id: article.id}
+      expect(response).to redirect_to(new_author_session_path)
+      expect(flash[:alert]).to eq("You need to sign in or sign up before continuing.")
     end
 
     it "does not allow access to delete an article" do
       delete :destroy, params: { id: article.id }
-      expect(response).to redirect_to(article_path)
+      expect(response).to redirect_to(new_author_session_path)
+      expect(flash[:alert]).to eq("You need to sign in or sign up before continuing.")
     end
   end
 end

@@ -1,5 +1,5 @@
 class ArticlesController < ApplicationController
-  before_action :authenticate_author!, only: [:new, :create]
+  before_action :authenticate_author!, only: [:new, :create, :edit, :update, :destroy]
   def index
     @articles = Article.order(created_at: :desc)
   end
@@ -30,7 +30,8 @@ class ArticlesController < ApplicationController
     end
 
     if current_author != @article.author
-      redirect_to @article, alert: 'You can edit only your own articles. :)'
+      redirect_to @article, notice: 'You can edit only your own articles. :)'
+      return
     end
   end
 

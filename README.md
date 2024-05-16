@@ -24,4 +24,6 @@ Tests are running by entering:
 
 * rails test - for integrational tests
 
+* rspec - for RSpec tests
+
 * Enjoy :)

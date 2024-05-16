@@ -4,7 +4,7 @@ FactoryBot.define do
     last_name { 'Author' }
     #email { 'marina123445@gmail.com' }
     sequence(:email) { |n| "author#{n}@example.com" }
-    password { 'password' }
+    password { "password1" }
     factory :author_with_devise do
       password { Devise.friendly_token[0, 20] }
     end
@@ -13,7 +13,7 @@ FactoryBot.define do
     first_name { 'James' }
     last_name { 'Clear' }
     email { Faker::Internet.unique.email }
-    password { 'password1' }
+    password { "password1" }
     factory :other_author_with_devise do
       password { Devise.friendly_token[0, 20] }
     end

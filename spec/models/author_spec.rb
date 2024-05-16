@@ -19,7 +19,7 @@ RSpec.describe Author, type: :model do
 
   describe Author do
     it 'author can have multiple articles' do
-      author = FactoryBot.create(:author_with_devise)
+      author = FactoryBot.create(:author)
 
       article1 = FactoryBot.create(:article, author: author)
       article2 = FactoryBot.create(:article, author: author)
@@ -40,6 +40,7 @@ RSpec.describe Author, type: :model do
     it { should validate_presence_of(:last_name) }
     it { should validate_presence_of(:email) }
     it { should validate_uniqueness_of(:email).case_insensitive }
+
   end
 
   describe 'associations' do

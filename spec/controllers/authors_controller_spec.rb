@@ -54,15 +54,26 @@ RSpec.describe AuthorsController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        { first_name: "New First Name", last_name: "New Last Name" }
+        { first_name: "New First Name", last_name: "New Last Name"}
       }
 
-      it "updates the requested author" do
+      before do
         sign_in author
-        put :update, params: { id: author.to_param, author: new_attributes }
+        put :update, params: { id: author.id, author: new_attributes }
         author.reload
+      end
+
+      it "updates the requested author's first name" do
         expect(author.first_name).to eq("New First Name")
+      end
+
+      it "updates the requested author's last name" do
         expect(author.last_name).to eq("New Last Name")
+      end
+
+      it "redirects to the author's page with a success notice" do
+        expect(response).to redirect_to(author)
+        expect(flash[:notice]).to eq("Author was successfully updated.")
       end
     end
   end

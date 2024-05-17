@@ -243,4 +243,46 @@ class DevisesTest < ApplicationSystemTestCase
 
   end
 
+  test "author can have many articles" do
+    Author.create!(
+      first_name: "James",
+      last_name: "Clear",
+      email: "clear@gmail.com",
+      password: "password3"
+    )
+    visit root_path
+
+    click_on "New article"
+    assert_text "You need to sign in or sign up before continuing."
+
+
+    fill_in "Email", with: "clear@gmail.com"
+    fill_in "Password", with: "password3"
+
+    click_on "Log in"
+
+    assert_text "Signed in successfully."
+    assert_current_path(new_article_path)
+
+    fill_in "Title", with: "Article #1"
+    fill_in "Body", with: "New article text for testing"
+
+    click_on "Save"
+    click_on "Back to Main Page"
+    assert_current_path(root_path)
+    click_on "New article"
+    assert_current_path(new_article_path)
+
+    fill_in "Title", with: "Article #2"
+    fill_in "Body", with: "New article text for testing"
+
+    click_on "Save"
+    click_on "Back to Main Page"
+    assert_current_path(root_path)
+    sleep 2
+    assert_text "Article #1"
+    assert_text "Article #2"
+
+  end
+
 end

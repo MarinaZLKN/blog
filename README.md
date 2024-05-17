@@ -20,8 +20,10 @@ Enter command:
 
 Tests are running by entering:
 
+* bin/rails test:system - for system tests
+
 * rails test - for integrational tests
 
-* bin/rails test:system - for system tests
+* rspec - for RSpec tests
 
 * Enjoy :)
